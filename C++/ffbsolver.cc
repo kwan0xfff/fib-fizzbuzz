@@ -10,8 +10,17 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
+#include <unistd.h>
+#include <getopt.h>
 
 using namespace std;
+
+struct GlblArgs_t {
+    bool verbose;               // be verbose, or not.
+    int nFibs;                  // number of fibbonacci numbers
+} glblargs;
+
+static const char* optstr = "vh?"; // options string
 
 class Primes {
   private:
@@ -117,26 +126,51 @@ classify(long value, Primes* primes, bool verbose=false)
     return msgline;
 }
 
-// TODO: need argument parser. Add -v, -h.
-//  void
-//  parseargs(int argc, char** argv)
-//  {
-//  }
+void
+displayUsage(void)
+{
+    printf( "ffbsolver - Fibonacci fizz buzz solver\n" );
+    exit (EXIT_FAILURE);
+}
 
-int main(int argc, const char * argv[]) {
-    // expect single argument, convert to integer
-    if (argc != 2) {
-        std::cerr << "Error: expect only number of Fibs to generate." << std::endl;
-        exit(1);
+
+
+int
+main(int argc, char** argv) {
+
+    int opt;
+    extern char *optarg;
+    extern int optind, optopt;
+
+    glblargs.verbose = false;
+    glblargs.nFibs = 0;
+
+    while ((opt = getopt(argc, argv, optstr)) != -1) {
+        switch (opt) {
+          case 'v':
+            glblargs.verbose = true;
+            break;
+          case 'h':
+          case '?':
+            displayUsage();
+            break;
+          default:
+            /* can't get here */
+            break;
+        }
+        opt = getopt( argc, argv, optstr);
     }
-    int nFibs = stoi(argv[1]);
+    for ( ; optind < argc; optind++) {
+        glblargs.nFibs = stoi(argv[optind]);
+    }
 
-    Primes* primes = new Primes(nFibs);
+    Primes* primes = new Primes(glblargs.nFibs);
 
-    for (int n=0; n<nFibs; ++n) {
+    for (int n=0; n<glblargs.nFibs; ++n) {
         long fn = figseq_next();
-        // TODO: third arg is verbose setting, from command line args.
-        std::cout << classify(fn, primes, false) << std::endl;
+        if (glblargs.verbose)
+            std::cout << fn << " " ;
+        std::cout << classify(fn, primes, glblargs.verbose) << std::endl;
     }
 
     return 0;
