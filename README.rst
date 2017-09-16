@@ -1,23 +1,23 @@
-README for Rick's Fizz Buzz Solvers
-===================================
-
-`http://bit.ly/29mhlgt`.
-(This turns out to be
-`https://github.com/swift-nav/screening_questions/blob/master/questions.md#swift-navigation-application-questions`.)
+README for Fibbonacci Fizz Buzz Solvers
+=======================================
 
 This directory contains a couple of proposed solutions a small coding
-challenge.
+challenge, specifically "Fibbonacci Fizz Buzz" (FFB) solvers.
 The solutions are in Python and C++.
+
 The problem is intriguing enough that I'll probably continue enhancing it
 for a while.
+Among other things, it is a place to explore and improve
+software engineering "best practices."
+(Okay, that may take some time.)
 
 Problem statement and issues
 ----------------------------
 
 Specifically, it addresses this problem:
 
-In the programming language of your choice, write a program
-generating the first n Fibonacci numbers F(n), printing
+  In the programming language of your choice, write a program
+  generating the first n Fibonacci numbers F(n), printing
 
   * "Buzz" when F(n) is divisible by 3.
   * "Fizz" when F(n) is divisible by 5.
@@ -32,7 +32,7 @@ entries for "Buzz" (3), "Fizz" (5), and "FizzBuzz" (15)
 are mutually exclusive; at most, one of those can be chosen.
 
 Another is to print all those that match.
-Thus, if "FizzBuzz" (15) is printed, then so far "Buzz" (3) and "Fizz" (5).
+Thus, if "FizzBuzz" (15) is printed, then so are "Buzz" (3) and "Fizz" (5).
 
 In practice, the implementer should go back to the person providing the
 requirements and ask for clarification.
@@ -44,9 +44,11 @@ Implementations
 
 A couple of largely equivalent implementations are provided.
 
-  * The first solution was written in Python, and includes an
-    odd number generator. This is to help ensure that each generated number
-    is consumed only once.
+  * The first solution was written in Python 3, and includes an
+    odd number generator `oddSeries()`.
+    This helps ensure that each generated number is consumed only once.
+    A second generator `fibsequence`
+    computes and generates a finite sequence of Fibonacci numbers.
 
   * The second solution is written in C++, with the expectation that
     it is more likely than Python to be used in an embedded system.
@@ -65,11 +67,4 @@ simply due to ease of expression and development speed.
 The C++ solution was crafted next,
 mapping the Python list onto a C++ vector.
 Naturally, more attention was paid to variable scope in C++.
-
-The Python version includes a "-v" verbose option to help in debugging.
-This has not yet been ported to the C++ version.
-
-An odd number generator function (with "yield" statement) had been
-constructed for the Python version, but proved unnecessary.
-
 
