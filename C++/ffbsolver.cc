@@ -40,15 +40,17 @@ Primes::isPrime(long candidate)
 {
     if (candidate == 1)
         return false;
-    
+
+    std::vector<long>::iterator it;
     long lastprime = primeslist.back();
     if (candidate <= lastprime) {
-        for (auto it=primeslist.begin(); it != primeslist.end(); ++it)
+        for (it=primeslist.begin(); it != primeslist.end(); ++it)
             if (candidate == *it)
                 return true;
     }
     long divisor;
-    for (auto itdiv=primeslist.begin(); itdiv != primeslist.end(); ++itdiv) {
+    std::vector<long>::iterator itdiv;
+    for (itdiv=primeslist.begin(); itdiv != primeslist.end(); ++itdiv) {
         divisor = *itdiv;
         if (candidate % divisor == 0)
             return false;
@@ -84,41 +86,44 @@ figseq_next()
 }
 
 string
-classify(long value, Primes* primes)
+classify(long value, Primes* primes, bool verbose=false)
 {
     vector <string> msgs;
+    std::vector<string>::iterator itmsgs;
 
     primes->stretch(int(sqrt(value)));
+    bool vv = verbose;
 
     if (value  % 5 == 0)            // divisible by 5
-        msgs.push_back("Fizz5");
+        msgs.push_back("Fizz" + string(vv?"5":""));
     if (value % 3 == 0)             // divisible by 3
-        msgs.push_back("Buzz3");
+        msgs.push_back("Buzz" + string(vv?"3":""));
     if (value % 15 == 0)            // divisible by 15
-        msgs.push_back("FizzBuzz15");
+        msgs.push_back("FizzBuzz" + string(vv?"15":""));
     if (primes->isPrime(value))      // check for primeness
-        msgs.push_back("BuzzFizzP");
+        msgs.push_back("BuzzFizz" + string(vv?"P":""));
 
     string msgline = "";
     if (msgs.size() != 0) {
         string first = *msgs.begin();
         msgline = string(first);
         msgs.erase(msgs.begin());
-        for (auto itmsgs = msgs.begin(); itmsgs != msgs.end(); ++itmsgs) {
+        for (itmsgs = msgs.begin(); itmsgs != msgs.end(); ++itmsgs) {
             msgline += string(" ") + string(*itmsgs);
         }
+    } else {
+        msgline = std::to_string(value);
     }
     return msgline;
 }
 
-void
-parseargs(int argc, char** argv)
-{
-    man
-}
+// TODO: need argument parser. Add -v, -h.
+//  void
+//  parseargs(int argc, char** argv)
+//  {
+//  }
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
     // expect single argument, convert to integer
     if (argc != 2) {
         std::cerr << "Error: expect only number of Fibs to generate." << std::endl;
@@ -130,9 +135,8 @@ int main(int argc, const char * argv[]) {
 
     for (int n=0; n<nFibs; ++n) {
         long fn = figseq_next();
-        std::cout << fn << " " << classify(fn, primes) << std::endl;
-        std::cout << fn << " " << classify(fn, primes) << std::endl;
-
+        // TODO: third arg is verbose setting, from command line args.
+        std::cout << classify(fn, primes, false) << std::endl;
     }
 
     return 0;
