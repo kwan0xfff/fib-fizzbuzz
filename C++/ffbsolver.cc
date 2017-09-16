@@ -1,6 +1,6 @@
 //
-//  main.cpp
-//  swiftfib-c++
+//  ffbsolver.cpp
+//  C++ implementation of Fibonacci FizzBuzz solver.
 //
 //  Created by Rick Kwan on 9/13/17.
 //  Copyright © 2017 Rick Kwan. All rights reserved.
